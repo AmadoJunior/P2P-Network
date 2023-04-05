@@ -9,7 +9,11 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     constructor() {
         //Init
         super();
+        this.on = this.eventBus.on.bind(this.eventBus);
+        this.off = this.eventBus.off.bind(this.eventBus);
         this.seenMessages = new Set();
+        this.on = this.eventBus.on.bind(this.eventBus);
+        this.off = this.eventBus.off.bind(this.eventBus);
     }
     //Methods
     async initService(portNum) {

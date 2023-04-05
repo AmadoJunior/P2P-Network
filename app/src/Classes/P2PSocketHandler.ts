@@ -21,6 +21,7 @@ export class P2PSocketHandler {
   private handleNewSocket(socket: net.Socket): void {
     //Generate UID
     const connectionId = uuidv4();
+    console.log("Socket Opened");
 
     //Save Connection & Emit Event
     this.connections.set(connectionId, socket);
@@ -28,11 +29,13 @@ export class P2PSocketHandler {
 
     //Handle Events
     socket.on("close", () => {
+      console.log("Socket Closed");
       this.connections.delete(connectionId);
       this.eventBus.emit("socket_disconnect", connectionId);
     });
 
     socket.on("data", (data) => {
+      console.log("data event");
       try {
         this.eventBus.emit("socket_message", {
           connectionId,
@@ -50,6 +53,7 @@ export class P2PSocketHandler {
     message: ISocketMessage
   ): Promise<void> {
     return new Promise((resolve, reject) => {
+      console.log("socketSend invoked");
       const socket: net.Socket = this.connections.get(connectionId);
 
       if (!socket) {

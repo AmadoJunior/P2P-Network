@@ -30,6 +30,7 @@ export class P2PNetwork extends P2PNodeHandler {
   }
   private async sendPacket(packet: IPacket): Promise<void> {
     try {
+      console.log("sendPacket invoked");
       for (const _nodeId of this.neighbors.keys()) {
         this.nodeSend(_nodeId, packet);
       }
@@ -45,6 +46,7 @@ export class P2PNetwork extends P2PNodeHandler {
     ttl: number = 255
   ): Promise<void> {
     try {
+      console.log("broadcast invoked");
       await this.sendPacket({
         id,
         ttl,
@@ -81,6 +83,7 @@ export class P2PNetwork extends P2PNodeHandler {
   private handleNodeEvents(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.eventBus.on("node_message", ({ nodeId, data }) => {
+        console.log("node_message event");
         if (this.seenMessages.has(data.id) || data.ttl <= 0) return;
         this.seenMessages.add(data.id);
 
