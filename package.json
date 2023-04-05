@@ -1,0 +1,19 @@
+{
+  "name": "express-rate-limiter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd app && npm install",
+    "start": "cd app && tsc && node dist/app.js"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "Amado Dominguez",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/AmadoJunior/ADM_Portfolio/issues"
+  },
+  "homepage": "https://github.com/AmadoJunior/ADM_Portfolio#readme"
+}
