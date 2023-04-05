@@ -6,12 +6,16 @@ import { v4 as uuidv4 } from "uuid";
 export class P2PNetwork extends P2PNodeHandler {
   //Properties
   private seenMessages: Set<string>;
+  public on = this.eventBus.on.bind(this.eventBus);
+  public off = this.eventBus.off.bind(this.eventBus);
 
   //Constructor
   constructor() {
     //Init
     super();
     this.seenMessages = new Set();
+    this.on = this.eventBus.on.bind(this.eventBus);
+    this.off = this.eventBus.off.bind(this.eventBus);
   }
 
   //Methods

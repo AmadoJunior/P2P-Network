@@ -31,17 +31,16 @@ network.initService(argv.port).then(() => {
   console.log(``);
   console.log(`Your name is "${name}"`);
 
-  const eventBus = network.getEventBus();
-  eventBus.on("node_connect", ({ nodeId }) => {
+  network.on("node_connect", ({ nodeId }) => {
     console.log(`New Peer Connected: ${nodeId}`);
   });
-  eventBus.on("node_disconnect", ({ nodeId }) => {
+  network.on("node_disconnect", ({ nodeId }) => {
     console.log(`Peer Disconnected: ${nodeId}`);
   });
-  eventBus.on("broadcast", ({ nodeId, message }) => {
+  network.on("broadcast", ({ nodeId, message }) => {
     console.log(`Broadcast:${nodeId}: ${message}`);
   });
-  eventBus.on("direct", ({ nodeId, message }) => {
+  network.on("direct", ({ nodeId, message }) => {
     console.log(`Direct:${nodeId}: ${message}`);
   });
 

@@ -59,11 +59,15 @@ network.initService(argv.port).then(() => {
                     console.log(`Name changed to "${name}"`);
                     break;
                 case "broadcast":
-                    network.broadcast(`${name}: ${arg}`);
+                    network
+                        .broadcast(`${name}: ${arg}`)
+                        .then(() => console.log(`Broadcasted "${arg}"`));
                     break;
                 case "message":
                     const [nodeId, message] = arg.split(":");
-                    network.direct(nodeId, `${name}: ${message}`);
+                    network
+                        .direct(nodeId, `${name}: ${message}`)
+                        .then(() => console.log(`Sent "${message}" to ${nodeId}`));
                     break;
             }
         }
