@@ -1,5 +1,5 @@
 {
-  "name": "express-rate-limiter",
+  "name": "p2p-network",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,9 +11,5 @@
     "type": "git"
   },
   "author": "Amado Dominguez",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/AmadoJunior/ADM_Portfolio/issues"
-  },
-  "homepage": "https://github.com/AmadoJunior/ADM_Portfolio#readme"
+  "license": "UNLICENSED"
 }
