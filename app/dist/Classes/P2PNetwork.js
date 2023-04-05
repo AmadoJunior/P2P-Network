@@ -22,23 +22,44 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
             throw e;
         }
     }
-    sendPacket(packet) {
-        for (const _nodeId of this.neighbors.keys()) {
-            this.nodeSend(_nodeId, packet);
+    async sendPacket(packet) {
+        try {
+            for (const _nodeId of this.neighbors.keys()) {
+                this.nodeSend(_nodeId, packet);
+            }
+        }
+        catch (e) {
+            throw e;
         }
     }
-    broadcast(message, id = (0, uuid_1.v4)(), origin = this.nodeId, ttl = 255) {
-        this.sendPacket({ id, ttl, type: Enums_1.PacketType.BROADCAST, message, origin });
+    async broadcast(message, id = (0, uuid_1.v4)(), origin = this.nodeId, ttl = 255) {
+        try {
+            await this.sendPacket({
+                id,
+                ttl,
+                type: Enums_1.PacketType.BROADCAST,
+                message,
+                origin,
+            });
+        }
+        catch (e) {
+            throw e;
+        }
     }
-    direct(destination, message, id = (0, uuid_1.v4)(), origin = this.nodeId, ttl = 255) {
-        this.sendPacket({
-            id,
-            ttl,
-            type: Enums_1.PacketType.DIRECT,
-            message,
-            destination,
-            origin,
-        });
+    async direct(destination, message, id = (0, uuid_1.v4)(), origin = this.nodeId, ttl = 255) {
+        try {
+            this.sendPacket({
+                id,
+                ttl,
+                type: Enums_1.PacketType.DIRECT,
+                message,
+                destination,
+                origin,
+            });
+        }
+        catch (e) {
+            throw e;
+        }
     }
     handleNodeEvents() {
         return new Promise((resolve, reject) => {
