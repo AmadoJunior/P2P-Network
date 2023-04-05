@@ -49,7 +49,9 @@ network.initService(argv.port).then(() => {
             case "connect":
                 const [ip, port] = arg.split(":");
                 console.log(`Connecting to ${ip} at ${Number(port)}...`);
-                network.connect(ip, Number(port));
+                network
+                    .connect(ip, Number(port))
+                    .then(() => console.log(`Connected to ${ip} at ${Number(port)}`));
                 break;
             case "name":
                 name = arg;

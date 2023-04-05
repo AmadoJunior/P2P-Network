@@ -24,36 +24,54 @@ export class P2PNetwork extends P2PNodeHandler {
       throw e;
     }
   }
-  private sendPacket(packet: IPacket): void {
-    for (const _nodeId of this.neighbors.keys()) {
-      this.nodeSend(_nodeId, packet);
+  private async sendPacket(packet: IPacket): Promise<void> {
+    try {
+      for (const _nodeId of this.neighbors.keys()) {
+        this.nodeSend(_nodeId, packet);
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
-  public broadcast(
+  public async broadcast(
     message: string,
     id: string = uuidv4(),
     origin: string = this.nodeId,
     ttl: number = 255
-  ) {
-    this.sendPacket({ id, ttl, type: PacketType.BROADCAST, message, origin });
+  ): Promise<void> {
+    try {
+      await this.sendPacket({
+        id,
+        ttl,
+        type: PacketType.BROADCAST,
+        message,
+        origin,
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
-  public direct(
+  public async direct(
     destination: string,
     message: string,
     id: string = uuidv4(),
     origin: string = this.nodeId,
     ttl: number = 255
-  ) {
-    this.sendPacket({
-      id,
-      ttl,
-      type: PacketType.DIRECT,
-      message,
-      destination,
-      origin,
-    });
+  ): Promise<void> {
+    try {
+      this.sendPacket({
+        id,
+        ttl,
+        type: PacketType.DIRECT,
+        message,
+        destination,
+        origin,
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
   private handleNodeEvents(): Promise<void> {

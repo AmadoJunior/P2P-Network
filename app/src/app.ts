@@ -49,25 +49,29 @@ network.initService(argv.port).then(() => {
   process.stdin.on("data", (data) => {
     const text = data.toString().trim();
     const [command, arg] = text.split(" ");
-    switch (command) {
-      case "connect":
-        const [ip, port] = arg.split(":");
-        console.log(`Connecting to ${ip} at ${Number(port)}...`);
-        network
-          .connect(ip, Number(port))
-          .then(() => console.log(`Connected to ${ip} at ${Number(port)}`));
-        break;
-      case "name":
-        name = arg;
-        console.log(`Name changed to "${name}"`);
-        break;
-      case "broadcast":
-        network.broadcast(`${name}: ${arg}`);
-        break;
-      case "message":
-        const [nodeId, message] = arg.split(":");
-        network.direct(nodeId, `${name}: ${message}`);
-        break;
+    try {
+      switch (command) {
+        case "connect":
+          const [ip, port] = arg.split(":");
+          console.log(`Connecting to ${ip} at ${Number(port)}...`);
+          network
+            .connect(ip, Number(port))
+            .then(() => console.log(`Connected to ${ip} at ${Number(port)}`));
+          break;
+        case "name":
+          name = arg;
+          console.log(`Name changed to "${name}"`);
+          break;
+        case "broadcast":
+          network.broadcast(`${name}: ${arg}`);
+          break;
+        case "message":
+          const [nodeId, message] = arg.split(":");
+          network.direct(nodeId, `${name}: ${message}`);
+          break;
+      }
+    } catch (e) {
+      console.error(e);
     }
   });
 });
