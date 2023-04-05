@@ -22,13 +22,14 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
     }
     async nodeSend(nodeId, data) {
         const connectionId = this.neighbors.get(nodeId);
+        console.log("nodeSend invoked");
         if (!connectionId) {
             throw new Error(`Cannot Find Connection ID for Node ${nodeId}`);
         }
         try {
             await this.socketSend(connectionId, {
                 type: Enums_1.MessageType.MESSAGE,
-                data: { nodeId, data },
+                data: data,
             });
         }
         catch (e) {
@@ -44,6 +45,7 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
                 });
             });
             this.eventBus.on("socket_message", ({ connectionId, message }) => {
+                console.log("socket_message event");
                 const { type, data } = message;
                 if (type === Enums_1.MessageType.HANDSHAKE) {
                     const { nodeId } = data;

@@ -35,7 +35,7 @@ export class P2PNodeHandler extends P2PSocketHandler {
     try {
       await this.socketSend(connectionId, {
         type: MessageType.MESSAGE,
-        data: { nodeId, data },
+        data: { nodeId, packet: data },
       });
     } catch (e) {
       throw e;
@@ -53,17 +53,17 @@ export class P2PNodeHandler extends P2PSocketHandler {
 
       this.eventBus.on("socket_message", ({ connectionId, message }) => {
         console.log("socket_message event");
-        const { type, data } = message;
+        const { type, packet } = message;
 
         if (type === MessageType.HANDSHAKE) {
-          const { nodeId } = data;
+          const { nodeId } = packet;
 
           this.neighbors.set(nodeId, connectionId);
           this.eventBus.emit("node_connect", { nodeId });
         }
         if (type === MessageType.MESSAGE) {
           const nodeId = this.findNodeId(connectionId);
-
+          const { data } = packet;
           this.eventBus.emit("node_message", { nodeId, data });
         }
       });

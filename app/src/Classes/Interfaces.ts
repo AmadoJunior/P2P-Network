@@ -16,7 +16,7 @@ export interface IPacket {
 
 export interface INodeMessage {
   nodeId: string;
-  data?: IPacket;
+  packet?: IPacket;
 }
 
 export interface ISocketMessage {

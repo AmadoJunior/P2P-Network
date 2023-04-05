@@ -83,7 +83,7 @@ export class P2PNetwork extends P2PNodeHandler {
   private handleNodeEvents(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.eventBus.on("node_message", ({ nodeId, data }) => {
-        console.log("node_message event");
+        console.log("node_message event", data);
         if (this.seenMessages.has(data.id) || data.ttl <= 0) return;
         this.seenMessages.add(data.id);
 
