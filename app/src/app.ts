@@ -53,24 +53,18 @@ network.initService(argv.port).then(() => {
         case "connect":
           const [ip, port] = arg.split(":");
           console.log(`Connecting to ${ip} at ${Number(port)}...`);
-          network
-            .connect(ip, Number(port))
-            .then(() => console.log(`Connected to ${ip} at ${Number(port)}`));
+          network.connect(ip, Number(port)).then(() => {});
           break;
         case "name":
           name = arg;
           console.log(`Name changed to "${name}"`);
           break;
         case "broadcast":
-          network
-            .broadcast(`${name}: ${arg}`)
-            .then(() => console.log(`Broadcasted "${arg}"`));
+          network.broadcast(`${name}: ${arg}`).then(() => {});
           break;
         case "direct":
           const [nodeId, message] = arg.split(":");
-          network
-            .direct(nodeId, `${name}: ${message}`)
-            .then(() => console.log(`Sent "${message}" to ${nodeId}`));
+          network.direct(nodeId, `${name}: ${message}`).then(() => {});
           break;
       }
     } catch (e) {

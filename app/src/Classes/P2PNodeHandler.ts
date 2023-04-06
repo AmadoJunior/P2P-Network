@@ -27,7 +27,6 @@ export class P2PNodeHandler extends P2PSocketHandler {
 
   protected async nodeSend(nodeId: string, data: IPacket): Promise<void> {
     const connectionId = this.neighbors.get(nodeId);
-    console.log("nodeSend invoked");
     if (!connectionId) {
       throw new Error(`Cannot Find Connection ID for Node ${nodeId}`);
     }
@@ -52,7 +51,6 @@ export class P2PNodeHandler extends P2PSocketHandler {
       });
 
       this.eventBus.on("socket_message", ({ connectionId, message }) => {
-        console.log("socket_message event");
         const { type, data } = message;
 
         if (type === MessageType.HANDSHAKE) {
