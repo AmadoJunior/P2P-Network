@@ -69,27 +69,27 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     }
     handleNodeEvents() {
         return new Promise((resolve, reject) => {
-            this.eventBus.on("node_message", ({ nodeId, data }) => {
-                console.log("node_message event", data);
-                if (this.seenMessages.has(data.id) || data.ttl <= 0)
+            this.eventBus.on("node_message", ({ nodeId, packet }) => {
+                console.log("node_message event", packet);
+                if (this.seenMessages.has(packet.id) || packet.ttl <= 0)
                     return;
-                this.seenMessages.add(data.id);
-                if (data.type === Enums_1.PacketType.BROADCAST) {
+                this.seenMessages.add(packet.id);
+                if (packet.type == Enums_1.PacketType.BROADCAST) {
                     this.eventBus.emit("broadcast", {
-                        origin: data.origin,
-                        message: data.message,
+                        origin: packet.origin,
+                        message: packet.message,
                     });
-                    this.broadcast(data.message, data.id, data.origin, data.ttl - 1);
+                    this.broadcast(packet.message, packet.id, packet.origin, packet.ttl - 1);
                 }
-                if (data.type === Enums_1.PacketType.DIRECT) {
-                    if ((data.destination = this.nodeId)) {
+                if (packet.type == Enums_1.PacketType.DIRECT) {
+                    if ((packet.destination = this.nodeId)) {
                         this.eventBus.emit("direct", {
-                            origin: data.origin,
-                            message: data.message,
+                            origin: packet.origin,
+                            message: packet.message,
                         });
                     }
                     else {
-                        this.direct(data.destination, data.message, data.id, data.origin, data.ttl - 1);
+                        this.direct(packet.destination, packet.message, packet.id, packet.origin, packet.ttl - 1);
                     }
                 }
             });

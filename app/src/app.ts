@@ -37,11 +37,11 @@ network.initService(argv.port).then(() => {
   network.on("node_disconnect", ({ nodeId }) => {
     console.log(`Peer Disconnected: ${nodeId}`);
   });
-  network.on("broadcast", ({ nodeId, message }) => {
-    console.log(`Broadcast:${nodeId}: ${message}`);
+  network.on("broadcast", ({ origin, message }) => {
+    console.log(`Broadcast:${origin}: ${message}`);
   });
-  network.on("direct", ({ nodeId, message }) => {
-    console.log(`Direct:${nodeId}: ${message}`);
+  network.on("direct", ({ origin, message }) => {
+    console.log(`Direct:${origin}: ${message}`);
   });
 
   // Start CLI
@@ -66,7 +66,7 @@ network.initService(argv.port).then(() => {
             .broadcast(`${name}: ${arg}`)
             .then(() => console.log(`Broadcasted "${arg}"`));
           break;
-        case "message":
+        case "direct":
           const [nodeId, message] = arg.split(":");
           network
             .direct(nodeId, `${name}: ${message}`)

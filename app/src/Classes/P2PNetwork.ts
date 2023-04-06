@@ -87,7 +87,7 @@ export class P2PNetwork extends P2PNodeHandler {
         if (this.seenMessages.has(packet.id) || packet.ttl <= 0) return;
         this.seenMessages.add(packet.id);
 
-        if (packet.type === PacketType.BROADCAST) {
+        if (packet.type == PacketType.BROADCAST) {
           this.eventBus.emit("broadcast", {
             origin: packet.origin,
             message: packet.message,
@@ -100,7 +100,7 @@ export class P2PNetwork extends P2PNodeHandler {
           );
         }
 
-        if (packet.type === PacketType.DIRECT) {
+        if (packet.type == PacketType.DIRECT) {
           if ((packet.destination = this.nodeId)) {
             this.eventBus.emit("direct", {
               origin: packet.origin,
