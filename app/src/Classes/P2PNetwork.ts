@@ -82,32 +82,37 @@ export class P2PNetwork extends P2PNodeHandler {
 
   private handleNodeEvents(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.eventBus.on("node_message", ({ nodeId, data }) => {
-        console.log("node_message event", data);
-        if (this.seenMessages.has(data.id) || data.ttl <= 0) return;
-        this.seenMessages.add(data.id);
+      this.eventBus.on("node_message", ({ nodeId, packet }) => {
+        console.log("node_message event", packet);
+        if (this.seenMessages.has(packet.id) || packet.ttl <= 0) return;
+        this.seenMessages.add(packet.id);
 
-        if (data.type === PacketType.BROADCAST) {
+        if (packet.type === PacketType.BROADCAST) {
           this.eventBus.emit("broadcast", {
-            origin: data.origin,
-            message: data.message,
+            origin: packet.origin,
+            message: packet.message,
           });
-          this.broadcast(data.message, data.id, data.origin, data.ttl - 1);
+          this.broadcast(
+            packet.message,
+            packet.id,
+            packet.origin,
+            packet.ttl - 1
+          );
         }
 
-        if (data.type === PacketType.DIRECT) {
-          if ((data.destination = this.nodeId)) {
+        if (packet.type === PacketType.DIRECT) {
+          if ((packet.destination = this.nodeId)) {
             this.eventBus.emit("direct", {
-              origin: data.origin,
-              message: data.message,
+              origin: packet.origin,
+              message: packet.message,
             });
           } else {
             this.direct(
-              data.destination,
-              data.message,
-              data.id,
-              data.origin,
-              data.ttl - 1
+              packet.destination,
+              packet.message,
+              packet.id,
+              packet.origin,
+              packet.ttl - 1
             );
           }
         }
