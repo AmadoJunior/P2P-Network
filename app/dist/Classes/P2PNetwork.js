@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.P2PNetwork = void 0;
 const P2PNodeHandler_1 = require("./P2PNodeHandler");
-const Enums_1 = require("./Enums");
+const Enums_1 = require("../Utils/Enums");
 const uuid_1 = require("uuid");
 class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     //Constructor
@@ -28,7 +28,6 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     }
     async sendPacket(packet) {
         try {
-            console.log("sendPacket invoked");
             for (const _nodeId of this.neighbors.keys()) {
                 this.nodeSend(_nodeId, packet);
             }
@@ -39,7 +38,6 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     }
     async broadcast(message, id = (0, uuid_1.v4)(), origin = this.nodeId, ttl = 255) {
         try {
-            console.log("broadcast invoked");
             await this.sendPacket({
                 id,
                 ttl,
@@ -70,7 +68,6 @@ class P2PNetwork extends P2PNodeHandler_1.P2PNodeHandler {
     handleNodeEvents() {
         return new Promise((resolve, reject) => {
             this.eventBus.on("node_message", ({ nodeId, packet }) => {
-                console.log("node_message event", packet);
                 if (this.seenMessages.has(packet.id) || packet.ttl <= 0)
                     return;
                 this.seenMessages.add(packet.id);

@@ -19,18 +19,15 @@ class P2PSocketHandler {
     handleNewSocket(socket) {
         //Generate UID
         const connectionId = (0, uuid_1.v4)();
-        console.log("Socket Opened");
         //Save Connection & Emit Event
         this.connections.set(connectionId, socket);
         this.eventBus.emit("socket_connect", connectionId);
         //Handle Events
         socket.on("close", () => {
-            console.log("Socket Closed");
             this.connections.delete(connectionId);
             this.eventBus.emit("socket_disconnect", connectionId);
         });
         socket.on("data", (data) => {
-            console.log("data event");
             try {
                 const message = JSON.parse(data.toString());
                 try {
@@ -51,13 +48,11 @@ class P2PSocketHandler {
     //Send Message to Socket
     socketSend(connectionId, message) {
         return new Promise((resolve, reject) => {
-            console.log("socketSend invoked");
             const socket = this.connections.get(connectionId);
             if (!socket) {
                 return reject(new Error(`Attempt to send data to connection that does not exist ${connectionId}`));
             }
             socket.write(JSON.stringify(message), (err) => {
-                console.log(String.raw `Sending Message: ${JSON.stringify(message)}`);
                 if (err)
                     return reject(err);
                 return resolve();

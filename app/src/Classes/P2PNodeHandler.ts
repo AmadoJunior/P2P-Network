@@ -1,5 +1,5 @@
-import { MessageType } from "./Enums";
-import { IPacket } from "./Interfaces";
+import { MessageType } from "../Utils/Enums";
+import { IPacket } from "../Utils/Interfaces";
 import { P2PSocketHandler } from "./P2PSocketHandler";
 import { v4 as uuidv4 } from "uuid";
 

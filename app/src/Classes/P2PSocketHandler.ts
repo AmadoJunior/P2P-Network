@@ -1,7 +1,7 @@
 import net from "net";
 import { v4 as uuidv4 } from "uuid";
 import EventEmitter from "events";
-import { ISocketMessage } from "./Interfaces";
+import { ISocketMessage } from "../Utils/Interfaces";
 
 export class P2PSocketHandler {
   //Properties

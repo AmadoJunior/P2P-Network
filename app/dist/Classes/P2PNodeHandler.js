@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.P2PNodeHandler = void 0;
-const Enums_1 = require("./Enums");
+const Enums_1 = require("../Utils/Enums");
 const P2PSocketHandler_1 = require("./P2PSocketHandler");
 const uuid_1 = require("uuid");
 class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
@@ -22,7 +22,6 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
     }
     async nodeSend(nodeId, data) {
         const connectionId = this.neighbors.get(nodeId);
-        console.log("nodeSend invoked");
         if (!connectionId) {
             throw new Error(`Cannot Find Connection ID for Node ${nodeId}`);
         }
@@ -45,7 +44,6 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
                 });
             });
             this.eventBus.on("socket_message", ({ connectionId, message }) => {
-                console.log("socket_message event");
                 const { type, data } = message;
                 if (type === Enums_1.MessageType.HANDSHAKE) {
                     const { nodeId } = data;

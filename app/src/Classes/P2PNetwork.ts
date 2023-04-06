@@ -1,6 +1,6 @@
 import { P2PNodeHandler } from "./P2PNodeHandler";
-import { PacketType } from "./Enums";
-import { IPacket } from "./Interfaces";
+import { PacketType } from "../Utils/Enums";
+import { IPacket } from "../Utils/Interfaces";
 import { v4 as uuidv4 } from "uuid";
 
 export class P2PNetwork extends P2PNodeHandler {
