@@ -37,10 +37,15 @@ export class P2PSocketHandler {
     socket.on("data", (data) => {
       console.log("data event");
       try {
-        this.eventBus.emit("socket_message", {
-          connectionId,
-          message: JSON.parse(data.toString()),
-        });
+        const message: ISocketMessage = JSON.parse(data.toString());
+        try {
+          this.eventBus.emit("socket_message", {
+            connectionId,
+            message: message,
+          });
+        } catch (e) {
+          console.error(`Cannot Emit ${e}`);
+        }
       } catch (e) {
         console.error(`Cannot Parse Peer Message`, data.toString());
       }
@@ -65,6 +70,7 @@ export class P2PSocketHandler {
       }
 
       socket.write(JSON.stringify(message), (err) => {
+        console.log(String.raw`Sending Message: ${JSON.stringify(message)}`);
         if (err) return reject(err);
         return resolve();
       });

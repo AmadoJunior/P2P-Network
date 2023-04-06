@@ -53,18 +53,18 @@ export class P2PNodeHandler extends P2PSocketHandler {
 
       this.eventBus.on("socket_message", ({ connectionId, message }) => {
         console.log("socket_message event");
-        const { type, packet } = message;
+        const { type, data } = message;
 
         if (type === MessageType.HANDSHAKE) {
-          const { nodeId } = packet;
+          const { nodeId } = data;
 
           this.neighbors.set(nodeId, connectionId);
           this.eventBus.emit("node_connect", { nodeId });
         }
         if (type === MessageType.MESSAGE) {
           const nodeId = this.findNodeId(connectionId);
-          const { data } = packet;
-          this.eventBus.emit("node_message", { nodeId, data });
+          const { packet } = data;
+          this.eventBus.emit("node_message", { nodeId, packet });
         }
       });
 

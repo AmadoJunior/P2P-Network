@@ -29,7 +29,7 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
         try {
             await this.socketSend(connectionId, {
                 type: Enums_1.MessageType.MESSAGE,
-                data: data,
+                data: { nodeId, packet: data },
             });
         }
         catch (e) {
@@ -54,7 +54,8 @@ class P2PNodeHandler extends P2PSocketHandler_1.P2PSocketHandler {
                 }
                 if (type === Enums_1.MessageType.MESSAGE) {
                     const nodeId = this.findNodeId(connectionId);
-                    this.eventBus.emit("node_message", { nodeId, data });
+                    const { packet } = data;
+                    this.eventBus.emit("node_message", { nodeId, packet });
                 }
             });
             this.eventBus.on("socket_disconnect", (connectionId) => {

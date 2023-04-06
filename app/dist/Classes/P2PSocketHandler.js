@@ -32,10 +32,16 @@ class P2PSocketHandler {
         socket.on("data", (data) => {
             console.log("data event");
             try {
-                this.eventBus.emit("socket_message", {
-                    connectionId,
-                    message: JSON.parse(data.toString()),
-                });
+                const message = JSON.parse(data.toString());
+                try {
+                    this.eventBus.emit("socket_message", {
+                        connectionId,
+                        message: message,
+                    });
+                }
+                catch (e) {
+                    console.error(`Cannot Emit ${e}`);
+                }
             }
             catch (e) {
                 console.error(`Cannot Parse Peer Message`, data.toString());
@@ -51,6 +57,7 @@ class P2PSocketHandler {
                 return reject(new Error(`Attempt to send data to connection that does not exist ${connectionId}`));
             }
             socket.write(JSON.stringify(message), (err) => {
+                console.log(String.raw `Sending Message: ${JSON.stringify(message)}`);
                 if (err)
                     return reject(err);
                 return resolve();
